@@ -83,6 +83,15 @@ resilience4j:
         failureRateThreshold: 50
         eventConsumerBufferSize: 10
 
+#  springdoc.swagger-ui.path=/swagger-ui.html
+#  springdoc.api-docs.path=/api-docs
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /api-docs
+
+
 app:
   kafka:
     topics:
