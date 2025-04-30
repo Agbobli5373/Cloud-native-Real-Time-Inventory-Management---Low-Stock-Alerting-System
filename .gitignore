@@ -1,5 +1,6 @@
 services/inventory-service/target/*
 services/api-gateway/target/*
 services/auth-service/target/*
+services/service-registry/target/*
 .vscode
 

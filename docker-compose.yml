@@ -31,9 +31,16 @@ services:
       retries: 5
 
   service-registry:
-    image: springcloud/eureka
+    build: ./services/service-registry
     ports:
       - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   auth-service:
     build: ./services/auth-service
@@ -48,7 +55,7 @@ services:
       postgres:
         condition: service_healthy
       service-registry:
-        condition: service_started
+        condition: service_healthy
 
   inventory-service:
     build: ./services/inventory-service
@@ -67,7 +74,7 @@ services:
       redis:
         condition: service_healthy
       service-registry:
-        condition: service_started
+        condition: service_healthy
 
   api-gateway:
     build: ./services/api-gateway
@@ -76,9 +83,12 @@ services:
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
     depends_on:
-      - service-registry
-      - auth-service
-      - inventory-service
+      service-registry:
+        condition: service_healthy
+      auth-service:
+        condition: service_started
+      inventory-service:
+        condition: service_started
 
   prometheus:
     image: prom/prometheus:v2.30.3

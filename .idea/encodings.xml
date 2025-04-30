@@ -4,5 +4,6 @@
     <file url="file://$PROJECT_DIR$/services/api-gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/services/auth-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/services/inventory-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/services/service-registry/src/main/java" charset="UTF-8" />
   </component>
 </project>
