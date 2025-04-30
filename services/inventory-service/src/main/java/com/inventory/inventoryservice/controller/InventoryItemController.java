@@ -6,6 +6,7 @@ import com.inventory.inventoryservice.model.Location;
 import com.inventory.inventoryservice.service.CategoryService;
 import com.inventory.inventoryservice.service.InventoryItemService;
 import com.inventory.inventoryservice.service.LocationService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -25,6 +26,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/inventory")
 @CrossOrigin(origins = "*", maxAge = 3600)
+@SecurityRequirement(name = "JWT")
 public class InventoryItemController {
     
     private static final Logger logger = LoggerFactory.getLogger(InventoryItemController.class);

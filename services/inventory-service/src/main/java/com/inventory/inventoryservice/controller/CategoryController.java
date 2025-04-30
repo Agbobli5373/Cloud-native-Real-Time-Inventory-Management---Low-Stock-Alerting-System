@@ -2,6 +2,7 @@ package com.inventory.inventoryservice.controller;
 
 import com.inventory.inventoryservice.model.Category;
 import com.inventory.inventoryservice.service.CategoryService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/categories")
 @CrossOrigin(origins = "*", maxAge = 3600)
+@SecurityRequirement(name = "JWT")
 public class CategoryController {
     
     private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
