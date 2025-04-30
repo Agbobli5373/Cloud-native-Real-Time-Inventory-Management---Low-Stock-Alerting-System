@@ -28,7 +28,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/actuator/**").permitAll()
+                        .requestMatchers("/actuator/**","/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**",
+                                "/swagger-resources/**", "/api-docs/**", "/aggregate/**", "/actuator/prometheus" ).permitAll()
                         .requestMatchers("/api/inventory/*/quantity").hasAnyRole("ADMIN", "INVENTORY_MANAGER")
                         .requestMatchers("/api/inventory/reserve").authenticated()
                         .requestMatchers("/api/inventory/low-stock/**").authenticated()

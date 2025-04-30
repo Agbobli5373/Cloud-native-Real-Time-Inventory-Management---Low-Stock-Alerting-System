@@ -19,9 +19,6 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: false
-  redis:
-    host: redis
-    port: 6379
   kafka:
     bootstrap-servers: kafka:9092
     producer:
@@ -45,6 +42,10 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://auth-service:8081/issuer
+  data:
+    redis:
+      host: redis
+      port: 6379
 
 eureka:
   client:
@@ -64,11 +65,12 @@ management:
     health:
       show-details: always
   metrics:
-    export:
-      prometheus:
-        enabled: true
     tags:
       application: ${spring.application.name}
+  prometheus:
+    metrics:
+      export:
+        enabled: true
 
 resilience4j:
   circuitbreaker:
