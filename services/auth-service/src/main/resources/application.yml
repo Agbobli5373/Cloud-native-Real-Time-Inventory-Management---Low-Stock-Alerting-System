@@ -23,6 +23,8 @@ spring:
     config:
       uri: http://config-server:8888
       fail-fast: true
+    compatibility-verifier:
+      enabled: false
 
 eureka:
   client:
