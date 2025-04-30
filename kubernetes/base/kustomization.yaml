@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - namespace.yaml
+  - api-gateway-deployment.yaml
+  - api-gateway-service.yaml
+  - auth-service-deployment.yaml
+  - auth-service-service.yaml
+  - inventory-service-deployment.yaml
+  - inventory-service-service.yaml
+  - postgres-deployment.yaml
+  - postgres-service.yaml
+  - redis-deployment.yaml
+  - redis-service.yaml
+  - prometheus-deployment.yaml
+  - prometheus-service.yaml
+  - grafana-deployment.yaml
+  - grafana-service.yaml
