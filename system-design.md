@@ -1,7 +1,12 @@
----
-config:
-  look: neo
----
+# Cloud-native Real-Time Inventory Management & Low-Stock Alerting System
+
+This project is a cloud-native real-time inventory management system with low-stock alerting capabilities. It leverages modern technologies such as Spring Boot, Kafka, Redis, and Kubernetes to provide a scalable and resilient architecture.
+
+## System Design
+
+The following diagram showcases the system design:
+
+```mermaid
 graph TD
 classDef service fill:#dbe9f4,stroke:#333,stroke-width:2px;
 classDef database fill:#e9e9e9,stroke:#333,stroke-width:2px;
@@ -11,32 +16,39 @@ classDef monitoring fill:#d4edda,stroke:#333,stroke-width:2px;
 classDef external fill:#ffffff,stroke:#666,stroke-width:1px,stroke-dasharray: 5 5;
 classDef gateway fill:#f8d7da,stroke:#333,stroke-width:2px;
 classDef config fill:#e2e3e5,stroke:#333,stroke-width:2px;
+
 subgraph SystemBoundary["System Boundary (Kubernetes Cluster)"]
 direction TB
+
 subgraph APILayer["API Gateway Layer"]
 apiGateway["API Gateway\n(Spring Cloud Gateway)"]:::gateway
 authService["Authentication Service\n(OAuth2/JWT)"]:::service
 end
+
 subgraph CoreServices["Core Services"]
 inventorySvc["Inventory Service\n(Java/Spring Boot)"]:::service
 orderSvc["Order Service\n(Java/Spring Boot)"]:::service
 alerterSvc["Stock Alerter Service\n(Java/Spring Boot)"]:::service
 notificationSvc["Notification Service\n(Java/Spring Boot)"]:::service
 end
+
 subgraph DataLayer["Data Layer"]
 inventoryDb["PostgreSQL\n(Inventory Items)\n- Sharded for Scale\n- Read Replicas"]:::database
 orderDb["PostgreSQL\n(Orders)"]:::database
 alertConfigDb["PostgreSQL\n(Alert Configurations)"]:::database
 redisCache["Redis Cluster\n(Distributed Cache)\n- Stock Counts\n- Rate Limiting"]:::cache
 end
+
 subgraph Messaging["Event Streaming Platform"]
 kafkaBroker["Apache Kafka\n(Event Streaming)\n- High Throughput\n- Persistence\n- Exactly-once delivery"]:::broker
 schemaRegistry["Schema Registry\n(Avro Schemas)"]:::service
 end
+
 subgraph ConfigManagement["Configuration Management"]
 configServer["Spring Cloud Config Server"]:::config
 serviceRegistry["Service Registry\n(Eureka/Consul)"]:::config
 end
+
 subgraph Monitoring["Observability Stack"]
 prometheus["Prometheus\n(Metrics Collection)"]:::monitoring
 grafana["Grafana\n(Dashboards)"]:::monitoring
@@ -44,18 +56,22 @@ alertmanager["Alertmanager\n(Alert Routing)"]:::monitoring
 jaeger["Jaeger\n(Distributed Tracing)"]:::monitoring
 elk["ELK Stack\n(Log Aggregation)"]:::monitoring
 end
+
 subgraph Resilience["Resilience Patterns"]
 circuitBreaker["Circuit Breaker\n(Resilience4j)"]:::service
 rateLimiter["Rate Limiter\n(Redis-based)"]:::service
 bulkhead["Bulkhead\n(Thread Isolation)"]:::service
 end
+
 end
+
 extClient["External Clients\n(Web/Mobile Apps, B2B)"]:::external
 emailSvc["Email Service\n(AWS SES)"]:::external
 smsSvc["SMS Service\n(Twilio)"]:::external
 pushSvc["Push Notification\n(Firebase)"]:::external
 opsTeam["Operations Team\n(PagerDuty)"]:::external
 cicd["CI/CD Pipeline\n(GitHub Actions/Jenkins)"]:::external
+
 extClient -- "HTTPS Requests" --> apiGateway
 apiGateway -- "Authenticate" --> authService
 apiGateway -- "Route Requests" --> inventorySvc
@@ -94,6 +110,7 @@ orderSvc -- "Implements" --> circuitBreaker
 apiGateway -- "Implements" --> rateLimiter
 inventorySvc -- "Implements" --> bulkhead
 cicd -- "Deploy" --> SystemBoundary
+
 class apiGateway,authService gateway;
 class inventorySvc,orderSvc,alerterSvc,notificationSvc service;
 class inventoryDb,orderDb,alertConfigDb database;
