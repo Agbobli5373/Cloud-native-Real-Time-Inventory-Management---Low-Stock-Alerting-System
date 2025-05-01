@@ -8,6 +8,7 @@ This document outlines the comprehensive requirements for implementing a modern,
 ## 2. System Architecture Overview
 
 The architecture follows a modern microservices approach with clear separation of concerns, distributed data management, event-driven communication, and comprehensive observability. Key architectural components include:
+![System Design](design.PNG)
 
 ### 2.1 Core Architectural Layers
 
