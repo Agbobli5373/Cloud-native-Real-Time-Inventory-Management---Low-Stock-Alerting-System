@@ -24,11 +24,13 @@ spring:
       default-filters:
         - name: RequestRateLimiter
           args:
-            redis-rate-limiter.replenishRate: 10
-            redis-rate-limiter.burstCapacity: 20
+            redis-rate-limiter:
+              replenishRate: 10
+              burstCapacity: 20
+              requestedTokens: 1
             key-resolver: "#{@ipKeyResolver}"
     config:
-      uri: http://config-server:8888
+      uri: http://localhost:8888
       fail-fast: true
     compatibility-verifier:
       enabled: false
@@ -37,6 +39,10 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://auth-service:8081/issuer
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
 eureka:
   client:

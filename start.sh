@@ -5,6 +5,12 @@ set -e
 
 echo "Building services..."
 
+# Build Service-registry
+echo "Building API Service-registry..."
+cd services/service-registry
+mvn clean package -DskipTests
+cd ../..
+
 # Build API Gateway
 echo "Building API Gateway..."
 cd services/api-gateway

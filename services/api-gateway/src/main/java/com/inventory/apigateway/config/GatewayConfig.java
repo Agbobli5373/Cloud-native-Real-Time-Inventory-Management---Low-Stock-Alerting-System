@@ -5,14 +5,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import reactor.core.publisher.Mono;
 
-import java.util.Objects;
-
 @Configuration
-public class RateLimiterConfig {
-
+public class GatewayConfig {
+    
     @Bean
     public KeyResolver ipKeyResolver() {
-        return exchange -> Mono.just(
-                Objects.requireNonNull(exchange.getRequest().getRemoteAddress()).getHostName());
+        return exchange -> {
+            var remoteAddress = exchange.getRequest().getRemoteAddress();
+            return remoteAddress != null 
+                ? Mono.just(remoteAddress.getHostString())
+                : Mono.just("unknown");
+        };
     }
 }
