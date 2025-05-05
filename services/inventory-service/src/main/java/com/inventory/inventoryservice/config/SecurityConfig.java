@@ -62,8 +62,7 @@ public class SecurityConfig {
     }
 
     private JwtAuthenticationConverter jwtAuthenticationConverter() {
-        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
         // Additional configuration for JWT converter can be added here if needed
-        return converter;
+        return new JwtAuthenticationConverter();
     }
 }

@@ -19,9 +19,10 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @SecurityRequirement(name = "JWT")
 public class CategoryController {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
-    
+    public static final String FAILURE = "Failure";
+
     private final CategoryService categoryService;
     
     @Autowired
@@ -57,10 +58,10 @@ public class CategoryController {
     public ResponseEntity<Category> createCategory(@Valid @RequestBody Category category) {
         logger.info("REST request to save Category : {}", category);
         if (category.getId() != null) {
-            return ResponseEntity.badRequest().header("Failure", "A new category cannot already have an ID").build();
+            return ResponseEntity.badRequest().header(FAILURE, "A new category cannot already have an ID").build();
         }
         if (categoryService.existsByName(category.getName())) {
-            return ResponseEntity.badRequest().header("Failure", "Category name already exists").build();
+            return ResponseEntity.badRequest().header(FAILURE, "Category name already exists").build();
         }
         Category result = categoryService.createCategory(category);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
@@ -71,17 +72,17 @@ public class CategoryController {
     public ResponseEntity<Category> updateCategory(@PathVariable Long id, @Valid @RequestBody Category category) {
         logger.info("REST request to update Category : {}, {}", id, category);
         if (category.getId() == null) {
-            return ResponseEntity.badRequest().header("Failure", "ID cannot be null for update").build();
+            return ResponseEntity.badRequest().header(FAILURE, "ID cannot be null for update").build();
         }
         if (!id.equals(category.getId())) {
-            return ResponseEntity.badRequest().header("Failure", "ID in path and body do not match").build();
+            return ResponseEntity.badRequest().header(FAILURE, "ID in path and body do not match").build();
         }
         
         try {
             Category result = categoryService.updateCategory(id, category);
             return ResponseEntity.ok(result);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().header("Failure", e.getMessage()).build();
+            return ResponseEntity.badRequest().header(FAILURE, e.getMessage()).build();
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }

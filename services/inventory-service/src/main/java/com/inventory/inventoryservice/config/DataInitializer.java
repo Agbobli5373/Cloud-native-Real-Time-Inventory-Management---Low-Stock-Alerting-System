@@ -8,7 +8,6 @@ import com.inventory.inventoryservice.repository.InventoryItemRepository;
 import com.inventory.inventoryservice.repository.LocationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,14 +23,20 @@ public class DataInitializer {
 
     private static final Logger logger = LoggerFactory.getLogger(DataInitializer.class);
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
-    @Autowired
-    private LocationRepository locationRepository;
+    private final LocationRepository locationRepository;
 
-    @Autowired
-    private InventoryItemRepository inventoryItemRepository;
+
+    private final InventoryItemRepository inventoryItemRepository;
+
+    public DataInitializer(CategoryRepository categoryRepository,
+                            LocationRepository locationRepository,
+                            InventoryItemRepository inventoryItemRepository) {
+        this.categoryRepository = categoryRepository;
+        this.locationRepository = locationRepository;
+        this.inventoryItemRepository = inventoryItemRepository;
+    }
 
     @Bean
     public CommandLineRunner initData() {
@@ -73,22 +78,22 @@ public class DataInitializer {
                     Category electronics = categories.stream()
                             .filter(c -> c.getName().equals("Electronics"))
                             .findFirst()
-                            .orElse(categories.get(0));
+                            .orElse(categories.getFirst());
 
                     Category clothing = categories.stream()
                             .filter(c -> c.getName().equals("Clothing"))
                             .findFirst()
-                            .orElse(categories.get(0));
+                            .orElse(categories.getFirst());
 
                     Location mainWarehouse = locations.stream()
                             .filter(l -> l.getName().equals("Main Warehouse"))
                             .findFirst()
-                            .orElse(locations.get(0));
+                            .orElse(locations.getFirst());
 
                     Location westCoastWarehouse = locations.stream()
                             .filter(l -> l.getName().equals("West Coast Warehouse"))
                             .findFirst()
-                            .orElse(locations.get(0));
+                            .orElse(locations.getFirst());
 
                     List<InventoryItem> items = Arrays.asList(
                             new InventoryItem("Laptop", "High-performance laptop", "ELEC-001", 100, 20, new BigDecimal("999.99"), electronics, mainWarehouse),

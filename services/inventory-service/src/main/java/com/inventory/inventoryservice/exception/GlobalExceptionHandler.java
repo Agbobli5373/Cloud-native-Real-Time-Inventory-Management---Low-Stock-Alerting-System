@@ -24,11 +24,11 @@ import java.util.List;
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException ex, WebRequest request) {
-        logger.error("Entity not found exception: {}", ex.getMessage());
+        log.error("Entity not found exception: {}", ex.getMessage());
 
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
@@ -42,7 +42,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException ex, WebRequest request) {
-        logger.error("Illegal argument exception: {}", ex.getMessage());
+        log.error("Illegal argument exception: {}", ex.getMessage());
 
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
@@ -56,7 +56,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex, WebRequest request) {
-        logger.error("Constraint violation exception: {}", ex.getMessage());
+        log.error("Constraint violation exception: {}", ex.getMessage());
 
         List<String> errors = new ArrayList<>();
         for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
@@ -79,7 +79,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                  HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        logger.error("Method argument not valid exception: {}", ex.getMessage());
+        log.error("Method argument not valid exception: {}", ex.getMessage());
 
         List<String> errors = new ArrayList<>();
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
@@ -103,7 +103,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
-        logger.error("Access denied exception: {}", ex.getMessage());
+        log.error("Access denied exception: {}", ex.getMessage());
 
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.FORBIDDEN.value(),
@@ -117,7 +117,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
-        logger.error("Unhandled exception: {}", ex.getMessage(), ex);
+        log.error("Unhandled exception: {}", ex.getMessage(), ex);
 
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
